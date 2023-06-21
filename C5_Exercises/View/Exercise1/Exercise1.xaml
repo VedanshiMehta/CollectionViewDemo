@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="C5_Exercises.View.Exercise1"
+             xmlns:viewModel="clr-namespace:C5_Exercises.ViewModel"
+             xmlns:template="clr-namespace:C5_Exercises.Selector"
+             BackgroundColor="#FFEED7">
+    <NavigationPage.TitleView>
+        <StackLayout HorizontalOptions="CenterAndExpand"
+                     Orientation="Horizontal">
+            <Label Text="EASY"
+                   FontAttributes="Bold"
+                   TextColor="#0D7F19"
+                   FontSize="35"/>
+            <Label Text="FOOD"
+                   FontAttributes="Bold"
+                   TextColor="Black"
+                   FontSize="35"/>
+        </StackLayout>
+    </NavigationPage.TitleView>
+    <ContentPage.BindingContext>
+        <viewModel:FoodViewModel/>
+    </ContentPage.BindingContext>
+   
+    <ContentPage.Resources>
+        <DataTemplate x:Key="NewEasyFood">
+            <Border StrokeShape="RoundRectangle 20"
+                   Stroke="#ffffff"
+                   BackgroundColor="#ffffff"
+                    Margin="10,5,10,5">
+                <StackLayout Orientation="Horizontal">
+                     <StackLayout Orientation="Horizontal"
+                                  Padding="15"
+                                  Spacing="10"
+                                  HorizontalOptions="FillAndExpand">
+                        <Border StrokeShape="RoundRectangle 10"
+                                Stroke="#ffffff">
+                            <Image Source="{Binding Image}"
+                                   HeightRequest="50"
+                                   WidthRequest="50"/>
+
+                        </Border>
+                        <VerticalStackLayout Spacing="2"
+                                             VerticalOptions="CenterAndExpand"
+                                             HorizontalOptions="FillAndExpand">
+
+                            <Label x:Name="FoodName"
+                                   TextColor="Black"
+                                   Text="{Binding FoodName}"
+                                   FontSize="14"
+                                   FontAttributes="Bold"/>
+                            <StackLayout Orientation="Horizontal"
+                                         Spacing="5"
+                                         HorizontalOptions="FillAndExpand">
+                                <HorizontalStackLayout Spacing="2"
+                                                       HorizontalOptions="FillAndExpand">
+                                    <Image Source="rate.png"/>
+                                    <Label x:Name="rating"
+                                           Text="{Binding Rating}"
+                                           FontSize="12"
+                                           FontAttributes="Bold"/>
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout Spacing="2"
+                                                       HorizontalOptions="FillAndExpand">
+                                    <Image Source="calories.png"/>
+                                    <Label x:Name="calories"
+                                           Text="{Binding Calories}"
+                                           FontSize="12"
+                                           FontAttributes="Bold"/>
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout Spacing="2"
+                                                       HorizontalOptions="FillAndExpand">
+                                    <Image Source="time.png"/>
+                                    <Label x:Name="time"
+                                           Text="{Binding Time}"
+                                           FontSize="12"
+                                           FontAttributes="Bold"/>
+                                </HorizontalStackLayout>
+                            </StackLayout>
+                        </VerticalStackLayout>
+                        
+                    </StackLayout>
+                    <Border StrokeShape="RoundRectangle 0,20,20,0"
+                            Stroke="#41B275"
+                            BackgroundColor="#41B275"
+                            VerticalOptions="StartAndExpand"
+                            HorizontalOptions="End"
+                            Padding="10,5,10,5">
+                            <Label x:Name="new"
+                                   Text="{Binding New}"
+                                   TextColor="White"
+                                   FontAttributes="Bold"
+                                   FontSize="12"/>
+
+                    </Border>
+
+                </StackLayout>
+            </Border>
+        </DataTemplate>
+        <DataTemplate x:Key="EasyFood">
+            <Border StrokeShape="RoundRectangle 20"
+                   Stroke="#ffffff"
+                   BackgroundColor="#ffffff"
+                    Margin="10,5,10,5">
+                <StackLayout Orientation="Horizontal">
+                    <StackLayout Orientation="Horizontal"
+                                  Padding="15"
+                                  Spacing="10"
+                                  HorizontalOptions="FillAndExpand">
+                        <Border StrokeShape="RoundRectangle 10"
+                                Stroke="#ffffff">
+                            <Image Source="{Binding Image}"
+                                   HeightRequest="50"
+                                   WidthRequest="50"/>
+
+                        </Border>
+                        <VerticalStackLayout Spacing="2"
+                                             VerticalOptions="CenterAndExpand"
+                                             HorizontalOptions="FillAndExpand">
+
+                            <Label x:Name="FoodName2"
+                                   TextColor="Black"
+                                   Text="{Binding FoodName}"
+                                   FontSize="14"
+                                   FontAttributes="Bold"/>
+                            <StackLayout Orientation="Horizontal"
+                                         Spacing="5"
+                                         HorizontalOptions="FillAndExpand">
+                                <HorizontalStackLayout Spacing="2"
+                                                       HorizontalOptions="FillAndExpand">
+                                    <Image Source="rate.png"/>
+                                    <Label x:Name="rating2"
+                                           Text="{Binding Rating}"
+                                           FontSize="12"
+                                           FontAttributes="Bold"/>
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout Spacing="2"
+                                                       HorizontalOptions="FillAndExpand">
+                                    <Image Source="calories.png"/>
+                                    <Label x:Name="calories2"
+                                           Text="{Binding Calories}"
+                                           FontSize="12"
+                                           FontAttributes="Bold"/>
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout Spacing="2"
+                                                       HorizontalOptions="FillAndExpand">
+                                    <Image Source="time.png"/>
+                                    <Label x:Name="time2"
+                                           Text="{Binding Time}"
+                                           FontSize="12"
+                                           FontAttributes="Bold"/>
+                                </HorizontalStackLayout>
+                            </StackLayout>
+                        </VerticalStackLayout>
+
+                    </StackLayout>
+                    <Border StrokeShape="RoundRectangle 0,20,20,0"
+                            Stroke="#ffffff"
+                            BackgroundColor="#ffffff"
+                            VerticalOptions="StartAndExpand"
+                            HorizontalOptions="End"
+                            Padding="10,5,10,5">
+                        <Label x:Name="new"
+                                   Text="{Binding New}"
+                                   TextColor="White"
+                                   FontAttributes="Bold"
+                                   FontSize="14"/>
+
+                    </Border>
+                </StackLayout>
+            </Border>
+        </DataTemplate>
+        <template:NewFoodSelector x:Key="NewFoodSelector"
+                                  NewFood="{StaticResource NewEasyFood}"
+                                  Food="{StaticResource EasyFood}"/>
+    </ContentPage.Resources>
+    <RefreshView IsRefreshing="{Binding IsRefreshing}"
+                 Command="{Binding RefreshIt}">
+    <CollectionView ItemsSource="{Binding Foods}"
+                    ItemTemplate="{StaticResource NewFoodSelector}"
+                    >
+        
+    </CollectionView>
+    </RefreshView>
+</ContentPage>

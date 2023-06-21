@@ -1,0 +1,14 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace C5_Exercises.Enum
+{
+    public enum FoodType
+    {
+        Veg,
+        NonVeg,
+    }
+}

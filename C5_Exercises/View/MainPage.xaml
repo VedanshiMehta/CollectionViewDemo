@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModel="clr-namespace:C5_Exercises.ViewModel"
+             xmlns:template="clr-namespace:C5_Exercises.Selector"
+             x:Class="C5_Exercises.MainPage"
+             Shell.NavBarIsVisible="False">
+    <ContentPage.BindingContext>
+        <viewModel:MonkeyViewModel/>
+    </ContentPage.BindingContext>
+
+ 
+
+    <RefreshView IsRefreshing="{Binding IsRefreshing}"
+                 Command="{Binding StopResfreshing}">
+    <CollectionView ItemsSource="{Binding Monkeys}"
+                    ItemsLayout="VerticalList"
+                    SelectionMode="Single"
+                    SelectionChanged="CollectionView_SelectionChanged">
+            
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <SwipeView>
+                            <SwipeView.RightItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Favorite"
+                                   BackgroundColor="LightGreen" />
+                                    <SwipeItem Text="Delete"
+                                   BackgroundColor="LightPink" />
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+                            <StackLayout BackgroundColor="White"
+                      Padding="10">
+                                <Label x:Name="monkey"
+                                FontSize="20"
+                                TextColor="Black"
+                                Text="{Binding Name}"
+                                Margin="5"
+                                Padding="10"
+                                VerticalOptions="StartAndExpand"/>
+
+                            </StackLayout>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            
+
+        </CollectionView>
+</RefreshView>
+
+
+
+
+</ContentPage>

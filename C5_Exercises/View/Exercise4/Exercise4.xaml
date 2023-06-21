@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="C5_Exercises.View.Exercise4.Exercise4"
+             xmlns:viewModel="clr-namespace:C5_Exercises.ViewModel">
+    <NavigationPage.TitleView>
+        <StackLayout Orientation="Horizontal">
+            <Label 
+            Text="Find Your Clothes"
+            HorizontalOptions="Start" 
+               FontAttributes="Bold"
+                FontSize="22"/>
+        </StackLayout>
+    </NavigationPage.TitleView>
+    <ContentPage.BindingContext>
+        <viewModel:ShoppingViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <DataTemplate x:Key="ShoppingCategories">
+            <StackLayout>
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup Name="CommonStates">
+                        <VisualState Name="Normal">
+                            <VisualState.Setters>
+                                <Setter TargetName="border"
+                                        Property="Border.BackgroundColor"
+                                        Value="White"/>
+                                <Setter TargetName="categoryTypes"
+                                        Property="Label.TextColor"
+                                        Value="Black"/>
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState Name="Selected">
+                            <VisualState.Setters>
+                                <Setter TargetName="border"
+                                        Property="Border.BackgroundColor"
+                                        Value="Black"/>
+                                <Setter TargetName="categoryTypes"
+                                        Property="Label.TextColor"
+                                        Value="White"/>
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+                <Border StrokeShape="RoundRectangle 10"
+                        BackgroundColor="White"
+                        x:Name="border"
+                        Padding="15">
+                    <StackLayout>
+                        <Label x:Name="categoryTypes"
+                               TextColor="Black"
+                               FontSize="12"
+                               Text="{Binding Name}"/>
+                    </StackLayout>
+
+                </Border>
+            </StackLayout>
+        </DataTemplate>
+        <DataTemplate x:Key="Items">
+           
+
+                <Border StrokeShape="RoundRectangle 10"
+                    BackgroundColor="White"
+                    Padding="10">
+                    <Grid>
+                    
+                    <StackLayout Spacing="10">
+                            <Image x:Name="imageItem"
+                           Source="{Binding ImageSource}"
+                           Aspect="AspectFill"
+                           HorizontalOptions="CenterAndExpand"/>
+                            <Label x:Name="ItemName"
+                           Text="{Binding ItemName}"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"/>
+                            <Label x:Name="ItemAmount"
+                           Text="{Binding Amount}"
+                           FontSize="12"
+                           HorizontalOptions="Center"/>
+                        </StackLayout>
+                    <ImageButton x:Name="favImage"
+                                 Source="{Binding FavouriteImage}"
+                                 HeightRequest="30"
+                                 WidthRequest="30"
+                                 VerticalOptions="Start"
+                                 HorizontalOptions="End"
+                                 CommandParameter="{Binding .}"
+                                 Command="{Binding Source={x:Reference itemsCollectionView}, Path=BindingContext.FavouriteItem}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="Source" Value="{Binding FavouriteImage}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <VisualState.Setters>
+                                        <Setter Property="Source" Value="{Binding ClickedFavrouiteImage}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+                    </ImageButton>
+
+
+                </Grid>
+                </Border>
+        </DataTemplate>
+    </ContentPage.Resources>
+    <ScrollView>
+        <StackLayout Padding="10">
+            <Border StrokeShape="RoundRectangle 10"
+              BackgroundColor="#FFEBD0"
+              Stroke="#FFEBD0">
+                <Grid 
+              RowDefinitions="*,*,*" 
+              ColumnDefinitions="*,*"
+              Padding="15,0,15,0">
+                    <StackLayout Grid.Column="0"
+                         Grid.Row="0"
+                         Grid.RowSpan="3"
+                         VerticalOptions="CenterAndExpand"
+                         Spacing="10">
+                        <Label x:Name="date"
+                   Text="Dec 16 - Dec 31"
+                   FontAttributes="Bold"
+                   TextColor="#FEAE39"
+                   FontSize="14"
+                   Grid.Column="0"
+                   Grid.Row="0"/>
+                        <Label x:Name="percent"
+                   Text="25 % Off"
+                   FontAttributes="Bold"
+                   TextColor="Black"
+                   FontSize="20"
+                   Grid.Column="0"
+                   Grid.Row="1"/>
+                        <Label x:Name="discount"
+                   Text="Super Discount"
+                   FontAttributes="Bold"
+                   TextColor="Black"
+                   FontSize="14"
+                   Grid.Column="0"
+                   Grid.Row="2"/>
+                    </StackLayout>
+                    <Image Source="backgroundimage.png"
+                   Grid.Column="1"
+                   Grid.Row="0"
+                   Grid.RowSpan="3"
+                   Aspect="AspectFill"/>
+
+                </Grid>
+            </Border>
+            <CollectionView ItemsSource="{Binding MainCategoryList}"
+                            ItemTemplate="{StaticResource ShoppingCategories}"
+                            SelectionMode="Single"
+                            SelectedItem="{Binding MainCategory}"
+                            SelectionChangedCommand="{Binding SelectedMainCategory}"
+                            HorizontalOptions="FillAndExpand"
+                            Margin="0,20,0,0">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal"
+                                       ItemSpacing="10"/>
+                </CollectionView.ItemsLayout>
+            </CollectionView>
+            <CollectionView ItemsSource="{Binding ShowSelectedCategoryList}"
+                            ItemTemplate="{StaticResource Items}"
+                            SelectionMode="Multiple"
+                            x:Name="itemsCollectionView"
+                            Margin="0,10,0,0">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical"
+                                     Span="2"
+                                     HorizontalItemSpacing="10"
+                                     VerticalItemSpacing="10">
+
+                    </GridItemsLayout>
+                </CollectionView.ItemsLayout>
+                <CollectionView.EmptyView>
+                    <StackLayout >
+                        <Label x:Name="noDataAvailable"
+                               FontAttributes="Bold"
+                               FontSize="18"
+                               HorizontalOptions="CenterAndExpand"
+                               VerticalTextAlignment="Center"
+                               HeightRequest="200"
+                               Text="{Binding EmptyView}"/>
+                    </StackLayout>
+                </CollectionView.EmptyView>
+            </CollectionView>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

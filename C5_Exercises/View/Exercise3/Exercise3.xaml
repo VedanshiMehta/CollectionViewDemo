@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="C5_Exercises.View.Exercise3.Exercise3"
+             xmlns:viewModel="clr-namespace:C5_Exercises.ViewModel"
+             xmlns:template ="clr-namespace:C5_Exercises.Selector">
+   
+    
+    <NavigationPage.TitleView>
+        <StackLayout Orientation="Horizontal"
+                     Padding="10,0,10,0">
+            <Label Text="Furniture"
+                   FontSize="20"
+                   TextColor="White"
+                   FontAttributes="Bold"
+                   HorizontalOptions="StartAndExpand"
+                   VerticalOptions="CenterAndExpand"/>
+            <Image Source="shoppingcart.png"
+                   HeightRequest="25"
+                   WidthRequest="25"
+                   HorizontalOptions="EndAndExpand"
+                   />
+        </StackLayout>
+    </NavigationPage.TitleView>
+    
+    <ContentPage.BindingContext>
+        <viewModel:FurnitureViewModel/>
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Resources>
+        
+        <DataTemplate x:Key="furnitureMainList">
+            <StackLayout>
+
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup Name="CommonStates">
+                        <VisualState Name="Normal"/>
+                        <VisualState Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="Border.BackgroundColor"
+                                        TargetName="frameBackground"
+                                        Value="Orange"/>
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+
+                <Border x:Name="frameBackground"
+                       StrokeShape="RoundRectangle 15"
+                       HorizontalOptions="CenterAndExpand"
+                       BackgroundColor="LightGoldenrodYellow"
+                       Padding="15">
+                    <StackLayout Spacing="5">
+                        <Image x:Name="productImage"
+                               HeightRequest="80"
+                               WidthRequest="80"
+                               Aspect="AspectFill"
+                               Source="{Binding Image}"/>
+                        <Label x:Name="productName"
+                               Text="{Binding ItemName}"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="Black"
+                               HorizontalOptions="Center"/>
+                        <Label x:Name="productTotalItem"
+                               Text="{Binding TotalItems}"
+                               FontSize="12"
+                               TextColor="Black"
+                               HorizontalOptions="Center"/>
+                    </StackLayout>
+                </Border>
+            </StackLayout>
+              
+        </DataTemplate>
+        <DataTemplate x:Key="NormalItem">
+            <Border StrokeShape="RoundRectangle 15"
+                    BackgroundColor="White"
+                    Padding="10">
+                <Grid ColumnDefinitions="Auto,.70*,Auto"
+                  RowDefinitions="Auto"
+                  ColumnSpacing="10">
+                    <Border StrokeShape="RoundRectangle 15"
+                            BackgroundColor="LightGoldenrodYellow"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Padding="15">
+                    <Image Source="{Binding ItemImage}"
+                           HeightRequest="60"
+                           WidthRequest="60"
+                           Aspect="AspectFill"/>
+                </Border>
+                <StackLayout VerticalOptions="Center"
+                             HorizontalOptions="FillAndExpand"
+                             Grid.Column="1"
+                             Grid.Row="0">
+                    <Label x:Name="productItemName"
+                           Text="{Binding ItemName}"
+                           TextColor="Black"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           LineBreakMode="WordWrap"
+                           MaxLines="2"
+                           />
+                    <HorizontalStackLayout HorizontalOptions="FillAndExpand">
+                        <Label x:Name="productPrice"
+                               Text="{Binding ItemPrice}"
+                               TextColor="#304F4F"
+                               FontSize="14"
+                               FontAttributes="Bold"/>
+                    </HorizontalStackLayout>
+                </StackLayout>
+                <Button Text="Buy Now"
+                        BackgroundColor="#304F4F"
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        VerticalOptions="Center"
+                        HorizontalOptions="EndAndExpand"/>
+                </Grid>
+            </Border>
+            
+        </DataTemplate>
+        <DataTemplate x:Key="DiscountItem">
+            <Border StrokeShape="RoundRectangle 15"
+                    BackgroundColor="White"
+                    Padding="10">
+                <Grid ColumnDefinitions="Auto,.70*,Auto"
+                  RowDefinitions="Auto"
+                  ColumnSpacing="10">
+                    <Border StrokeShape="RoundRectangle 15"
+                            BackgroundColor="LightGoldenrodYellow"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Padding="15">
+                        <Image Source="{Binding ItemImage}"
+                           HeightRequest="60"
+                           WidthRequest="60"
+                           Aspect="AspectFill"/>
+                    </Border>
+                    <StackLayout VerticalOptions="Center"
+                             HorizontalOptions="FillAndExpand"
+                             Grid.Column="1"
+                             Grid.Row="0">
+                        <Label x:Name="productItemName"
+                           Text="{Binding ItemName}"
+                           TextColor="Black"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           LineBreakMode="WordWrap"
+                           MaxLines="2"
+                           />
+                        <HorizontalStackLayout HorizontalOptions="FillAndExpand"
+                                               Spacing="5">
+                            <Label x:Name="productPrice"
+                               Text="{Binding ItemPrice}"
+                               TextColor="#304F4F"
+                               FontSize="14"
+                               FontAttributes="Bold"/>
+                            <Label x:Name="productdiscountPrice"
+                               Text="{Binding DiscountPrice}"
+                               TextColor="Red"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextDecorations="Strikethrough"/>
+                        </HorizontalStackLayout>
+                    </StackLayout>
+                    <Button Text="Buy Now"
+                        BackgroundColor="#304F4F"
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        VerticalOptions="Center"
+                        HorizontalOptions="EndAndExpand"/>
+                </Grid>
+            </Border>
+        </DataTemplate>
+        <DataTemplate x:Key="OutOfStockItem">
+            
+           
+              <AbsoluteLayout HeightRequest="115">
+                <Border StrokeShape="RoundRectangle 15"
+                    BackgroundColor="White"
+                    Padding="10"
+                    AbsoluteLayout.LayoutBounds="0,1,1,1"
+                    AbsoluteLayout.LayoutFlags="SizeProportional">
+                    <Grid ColumnDefinitions="Auto,.70*,Auto"
+                      RowDefinitions="Auto"
+                      ColumnSpacing="10"
+                     >
+                    <Border StrokeShape="RoundRectangle 15"
+                            BackgroundColor="LightGoldenrodYellow"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Padding="15">
+                        <Image Source="{Binding ItemImage}"
+                           HeightRequest="60"
+                           WidthRequest="60"
+                           Aspect="AspectFill"
+                           HorizontalOptions="StartAndExpand"/>
+                    </Border>
+                    <StackLayout VerticalOptions="Center"
+                             HorizontalOptions="FillAndExpand"
+                             Grid.Column="1"
+                             Grid.Row="0">
+                        <Label x:Name="productItemName"
+                           Text="{Binding ItemName}"
+                           TextColor="Black"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           LineBreakMode="WordWrap"
+                           MaxLines="2"
+                           />
+                        <HorizontalStackLayout HorizontalOptions="FillAndExpand"
+                                               Spacing="5">
+                            <Label x:Name="productPrice"
+                               Text="{Binding ItemPrice}"
+                               TextColor="#304F4F"
+                               FontSize="14"
+                               FontAttributes="Bold"/>
+                            <Label x:Name="productdiscountPrice"
+                               Text="{Binding DiscountPrice}"
+                               TextColor="Red"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextDecorations="Strikethrough"/>
+                        </HorizontalStackLayout>
+                    </StackLayout>
+                    <Button Text="Buy Now"
+                        BackgroundColor="#304F4F"
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        VerticalOptions="Center"
+                        HorizontalOptions="EndAndExpand"
+                        IsEnabled="False"/>
+                    
+                </Grid>
+
+
+                </Border>
+                <Border StrokeShape="RoundRectangle 15"
+                        BackgroundColor="#60000000"
+                        Padding="10"
+                        AbsoluteLayout.LayoutBounds="0,1,1,1"
+                        AbsoluteLayout.LayoutFlags="SizeProportional">
+                    <StackLayout HorizontalOptions="FillAndExpand"
+                                 VerticalOptions="FillAndExpand">
+                    <Label x:Name="outOfStock"
+                               Text="{Binding OutOfStock}"
+                               TextColor="Red"
+                               FontSize="24"
+                               FontAttributes="Bold"
+                                Rotation="-20"
+                           HorizontalOptions="CenterAndExpand"
+                           VerticalOptions="CenterAndExpand"
+                           HorizontalTextAlignment="Start"/>
+                    </StackLayout>
+                </Border>
+            </AbsoluteLayout>
+           
+        </DataTemplate>
+        <template:FurnitureSelector x:Key="FurnitureSelector"
+                                    NormalTemplate="{StaticResource NormalItem}"
+                                    DiscountPriceTemplate="{StaticResource DiscountItem}"
+                                    OutOfStockTemplate="{StaticResource OutOfStockItem}"/>
+    </ContentPage.Resources>
+
+
+    <ScrollView>
+        <StackLayout Padding="10">
+            <CollectionView ItemsSource="{Binding FurnitureMainList}"
+                        ItemTemplate="{StaticResource furnitureMainList}"
+                        SelectionMode="Single"
+                        SelectionChangedCommand="{Binding SelectedItemList}"    
+                        SelectedItem="{Binding SelectedItem}"
+                        x:Name="collectionView">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal"
+                               ItemSpacing="10"/>
+                </CollectionView.ItemsLayout>
+
+            </CollectionView>
+            <Label Text="Trending"
+               TextColor="Black"
+               FontAttributes="Bold"
+               FontSize="24"
+               Margin="0,20,0,0"/>
+            <CollectionView ItemsSource="{Binding ShowFurnitureList}"
+                        ItemTemplate="{StaticResource FurnitureSelector}"
+                            VerticalOptions="FillAndExpand"
+                            Margin="0,20,0,0">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical"
+                               ItemSpacing="10"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.EmptyView>
+                    <ContentView>
+                        <StackLayout VerticalOptions="FillAndExpand">
+                            <StackLayout HorizontalOptions="FillAndExpand"
+                                     VerticalOptions="StartAndExpand"
+                                     Spacing="10">
+
+                                <Image Source="search.png"
+                               HeightRequest="70"/>
+                                <Label x:Name="noProduct"
+                                Text="No Product Available"
+                               FontAttributes="Bold"
+                               FontSize="20"
+                               TextColor="#FEA32A"
+                                HorizontalOptions="CenterAndExpand"/>
+                            </StackLayout>
+
+                        </StackLayout>
+                    </ContentView>
+                </CollectionView.EmptyView>
+            </CollectionView>
+
+
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

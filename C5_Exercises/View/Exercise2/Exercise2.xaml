@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="C5_Exercises.View.Exercise2.Exercise2"
+             xmlns:viewModel="clr-namespace:C5_Exercises.ViewModel"
+             Shell.NavBarIsVisible="False">
+    <ContentPage.BindingContext>
+        <viewModel:ExpenseManagerViewModel/>
+    </ContentPage.BindingContext>
+    <StackLayout BackgroundColor="#DCDCDC">
+        <Border StrokeShape="RoundRectangle 0,0,15,15"
+                BackgroundColor="#88CFF8"
+                Stroke="#88CFF8"
+                Padding="20"
+                HorizontalOptions="FillAndExpand">
+            <StackLayout Spacing="10">
+                <HorizontalStackLayout Spacing="2"
+                                       HorizontalOptions="CenterAndExpand"
+                                       >
+                    <Label x:Name="totalExpenseLabel"
+                           Text="Total Expense: "
+                           TextColor="#0D6717"
+                           FontSize="18"
+                           FontAttributes="Bold"/>
+                    <Label x:Name="totalExpense"
+                           Text="{Binding TotalAmount}"
+                           TextColor="#ffffff"
+                           FontSize="18"
+                           FontAttributes="Bold"/>
+                </HorizontalStackLayout>
+                <Entry x:Name="enterExpenseName"
+                       Placeholder="Enter Expense Name"
+                       FontAttributes="Bold"
+                       PlaceholderColor="White"
+                       TextColor="White"
+                       FontSize="14"
+                       Text="{Binding EnterName}"/>
+                <Entry x:Name="enterAmount"
+                       Placeholder="Enter Amount"
+                       FontAttributes="Bold"
+                       PlaceholderColor="White"
+                       TextColor="White"
+                       FontSize="14"
+                       Text="{Binding EnterAmount}"
+                       Keyboard="Numeric"/>
+                <Button x:Name="addExpense"
+                        Text="Add Expense"
+                        FontAttributes="Bold"
+                        CornerRadius="25"
+                        Padding="15"
+                        BackgroundColor="#6498E9"
+                        Command="{Binding AddExpense}"/>
+            </StackLayout>
+
+        </Border>
+        <CollectionView ItemsSource="{Binding ExpenseManager}"
+                        VerticalOptions="FillAndExpand"
+                        HorizontalOptions="FillAndExpand"
+                        x:Name="collectionView">
+             <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                                <SwipeItems>
+                                    <SwipeItem 
+                                               IconImageSource="delete.png"
+                                               BackgroundColor="Coral" 
+                                              Text="Delete"
+                                        CommandParameter="{Binding}"
+                                        Command="{Binding Source={x:Reference collectionView},Path=BindingContext.DeleteExpense}"/>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                        <StackLayout>
+                        <Border Margin="10"
+                                BackgroundColor="White"
+                                Stroke="White"
+                                StrokeShape="RoundRectangle 15"
+                                Padding="20">
+                            <StackLayout BackgroundColor="White"
+                                         Orientation="Horizontal">
+                         
+                                <Label x:Name="expenseNames"
+                                   FontSize="14"
+                                   TextColor="Black"
+                                   Text="{Binding ExpenseName}"
+                                   HorizontalOptions="StartAndExpand"
+                                   VerticalTextAlignment="Center"/>
+                                <Label x:Name="expensAmounts"
+                                   FontSize="12"
+                                   TextColor="Black"
+                                   Text="{Binding ExpenseAmount}"
+                                   HorizontalOptions="EndAndExpand"
+                                   VerticalTextAlignment="Center"/>
+                                <Label 
+                                       FontSize="12"
+                                       TextColor="Black"
+                                        Text="Rs"
+                                       Margin="5,0,0,0"
+                                   HorizontalOptions="End"
+                                   VerticalTextAlignment="Center"/>
+
+
+                            </StackLayout>
+                        </Border>
+                        </StackLayout>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <ContentView>
+                    <StackLayout VerticalOptions="FillAndExpand">
+                        <StackLayout HorizontalOptions="Center"
+                                     VerticalOptions="CenterAndExpand"
+                                     Spacing="10">
+
+                            <Image Source="search.png"
+                               HeightRequest="70"/>
+                            <Label x:Name="noExpenseAdded"
+                               Text="No Expense Added"
+                               FontAttributes="Bold"
+                               FontSize="20"
+                               TextColor="#FEA32A"/>
+                        </StackLayout>
+
+                    </StackLayout>
+                </ContentView>
+            </CollectionView.EmptyView>
+
+        </CollectionView>
+      
+    </StackLayout>
+</ContentPage>

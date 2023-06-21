@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="C5_Exercises.View.Exercise6.Exercise6"
+             xmlns:viewModel="clr-namespace:C5_Exercises.ViewModel"
+             xmlns:templateSelector="clr-namespace:C5_Exercises.Selector">
+    <NavigationPage.TitleView>
+        <StackLayout Orientation="Horizontal">
+            <Label 
+            Text="Inbox"
+            HorizontalOptions="Start" 
+               FontAttributes="Bold"
+                FontSize="22"/>
+        </StackLayout>
+    </NavigationPage.TitleView>
+    <ContentPage.BindingContext>
+        <viewModel:ChatViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <DataTemplate x:Key="chatTemplate">
+            <StackLayout >
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup Name="CommonStates">
+                        <VisualState Name="Normal">
+                            <VisualState.Setters>
+                                <Setter TargetName="borderStackLayout"
+                                        Property="Border.BackgroundColor"
+                                        Value="White"/>
+                                <Setter TargetName="categoryName"
+                                        Property="Label.TextColor"
+                                        Value="Red"/>
+                                <Setter TargetName="totalChatCount"
+                                        Property="Label.TextColor"
+                                        Value="White"/>
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState Name="Selected">
+                            <VisualState.Setters>
+                                <Setter TargetName="borderStackLayout"
+                                        Property="Border.BackgroundColor"
+                                        Value="SkyBlue"/>
+                                <Setter TargetName="categoryName"
+                                        Property="Label.TextColor"
+                                        Value="Black"/>
+                                <Setter TargetName="totalChatCount"
+                                        Property="Label.TextColor"
+                                        Value="Black"/>
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+                <Border StrokeShape="RoundRectangle 25"
+                        BackgroundColor="White"
+                        x:Name="borderStackLayout"
+                        Padding="20,10,20,10">
+                    <StackLayout Spacing="10"
+                                 Orientation="Horizontal">
+                        <Label x:Name="categoryName"
+                               TextColor="Black"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"
+                               Text="{Binding CategoryName}"/>
+                        <Border x:Name="totalCountBorder"
+                                BackgroundColor="LightCoral"
+                                Stroke="LightCoral"
+                                StrokeShape="RoundRectangle 20"
+                                Padding="15,5,15,5">
+                            <StackLayout>
+                            <Label x:Name="totalChatCount"
+                                   FontSize="12"
+                                   TextColor="White"
+                                   FontAttributes="Bold"
+                                   Text="{Binding TotalChatCount}"
+                                   VerticalOptions="Center"/>
+                            </StackLayout>
+                        </Border>
+                    </StackLayout>
+
+                </Border>
+            </StackLayout>
+        </DataTemplate>
+        <DataTemplate x:Key="readMessageDataTemplate">
+            <StackLayout HorizontalOptions="FillAndExpand"
+                         Spacing="10"
+                         Orientation="Horizontal">
+                <Border StrokeShape="RoundRectangle 50"
+                        Stroke="White">
+                <Image Source="{Binding ProfilePhoto}"
+                       HeightRequest="80"
+                       WidthRequest="80"
+                       Aspect="AspectFill"
+                       HorizontalOptions="Start"/>
+                </Border>
+                <VerticalStackLayout VerticalOptions="CenterAndExpand"
+                                     HorizontalOptions="FillAndExpand">
+                    <Label Text="{Binding Name}"
+                           FontAttributes="Bold"
+                           FontSize="14"
+                           FontFamily="OpenSansRegular"/>
+                    <Label Text="{Binding MessageSent}"
+                           FontSize="14"
+                           FontFamily="OpenSansRegular"/>
+
+                </VerticalStackLayout>
+                <Label Text="{Binding Time}"
+                       VerticalOptions="CenterAndExpand"
+                       HorizontalOptions="End"/>
+
+            </StackLayout>
+
+        </DataTemplate>
+        <DataTemplate x:Key="unreadMessageDataTemplate">
+            <StackLayout HorizontalOptions="FillAndExpand"
+                         Spacing="10"
+                         Orientation="Horizontal">
+                <Border StrokeShape="RoundRectangle 50"
+                        Stroke="White">
+                    <Image Source="{Binding ProfilePhoto}"
+                       HeightRequest="80"
+                       WidthRequest="80"
+                       Aspect="AspectFill"
+                       HorizontalOptions="Start"/>
+                </Border>
+                <VerticalStackLayout VerticalOptions="CenterAndExpand"
+                                     HorizontalOptions="FillAndExpand"
+                                     Spacing="5">
+                    <Label Text="{Binding Name}"
+                           FontAttributes="Bold"
+                           FontSize="18"
+                           FontFamily="Mistral"/>
+                    <Label Text="{Binding MessageSent}"
+                           FontSize="18"
+                           FontFamily="Mistral"/>
+
+                </VerticalStackLayout>
+                <VerticalStackLayout HorizontalOptions="End"
+                                     VerticalOptions="CenterAndExpand"
+                                     Spacing="5">
+                    <Label Text="{Binding Time}"
+                        VerticalOptions="CenterAndExpand"
+                        FontFamily="Mistral"
+                           FontAttributes="Bold"/>
+                    <Border   BackgroundColor="LightGreen"
+                              Stroke="LightGreen"
+                              StrokeShape="RoundRectangle 30"
+                              Padding="10,5,10,5">
+                        <StackLayout>
+                            <Label x:Name="totalChatCount"
+                                   FontSize="12"
+                                   TextColor="White"
+                                   FontAttributes="Bold"
+                                   Text="{Binding UnreadMessage}"
+                                   VerticalOptions="Center"/>
+                        </StackLayout>
+                    </Border>
+                </VerticalStackLayout>
+
+            </StackLayout>
+
+        </DataTemplate>
+        <templateSelector:MessageSelector x:Key="messageSelector"
+                                          UnreadMessage="{StaticResource unreadMessageDataTemplate}"
+                                          ReadMessage="{StaticResource readMessageDataTemplate}"/>
+    </ContentPage.Resources>
+    
+    <StackLayout Padding="10">
+        <CollectionView ItemsSource="{Binding ChatCategoryList}"
+                        ItemTemplate="{StaticResource chatTemplate}"
+                        SelectedItem="{Binding ChatModel}"
+                        SelectionChangedCommand="{Binding ShowSelecteCategory}"
+                        SelectionMode="Single"
+                        HorizontalOptions="FillAndExpand">
+
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Horizontal"
+                                   ItemSpacing="10"/>
+            </CollectionView.ItemsLayout>
+        </CollectionView>
+        <CollectionView ItemsSource="{Binding ShowMessageList}"
+                        ItemTemplate="{StaticResource messageSelector}"
+                        SelectionMode="Single"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand"
+                        Margin="0,15,0,0"
+                        BackgroundColor="WhiteSmoke">
+
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical"
+                                   ItemSpacing="10."/>
+            </CollectionView.ItemsLayout>
+        </CollectionView>
+   
+    </StackLayout>
+   
+</ContentPage>

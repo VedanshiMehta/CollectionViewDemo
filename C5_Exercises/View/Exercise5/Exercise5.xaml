@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="C5_Exercises.View.Exercise5.Exercise5"
+             xmlns:viewModel="clr-namespace:C5_Exercises.ViewModel"
+             xmlns:template="clr-namespace:C5_Exercises.Selector"
+             Title="Food Delivery"
+             Padding="15">
+    <ContentPage.BindingContext>
+        <viewModel:PizzasandBurgerViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <DataTemplate x:Key="nonVegFoodItems">
+            <Border BackgroundColor="Coral"
+                    Stroke="Coral"
+                    StrokeShape="RoundRectangle 10"
+                    Margin="0,10,0,0">
+            <Grid HorizontalOptions="FillAndExpand"
+                  ColumnDefinitions=".40*,*"
+                  RowDefinitions="*"
+                  ColumnSpacing="10">
+                <Image Source="{Binding Image}"
+                       HorizontalOptions="Start"
+                       Aspect="AspectFill"
+                       Grid.Column="0"
+                       Grid.Row="0"
+                       HeightRequest="100"/>
+                <VerticalStackLayout Grid.Column="1"
+                                     Grid.Row="0"
+                                     Spacing="5"
+                                     VerticalOptions="CenterAndExpand">
+                        <Label x:Name="itemName"
+                               Text="{Binding Name}"
+                               FontAttributes="Bold"
+                               TextColor="Black"
+                               FontSize="24"/>
+                        <Label x:Name="name"
+                               Text="{Binding Price}"
+                               FontAttributes="Bold"
+                               TextColor="Black"
+                               FontSize="18"/>
+
+                    </VerticalStackLayout>
+
+            </Grid>
+            </Border>
+            
+        </DataTemplate>
+        <DataTemplate x:Key="vegFoodItems">
+            <Border BackgroundColor="LightGreen"
+                    Stroke="LightGreen"
+                    StrokeShape="RoundRectangle 10"
+                    Margin="0,10,0,0"
+                    Padding="10,0,0,0">
+                <Grid HorizontalOptions="FillAndExpand"
+                  ColumnDefinitions="*,.40*"
+                  RowDefinitions="*"
+                  ColumnSpacing="10">
+                    
+                    <VerticalStackLayout Grid.Column="0"
+                                     Grid.Row="0"
+                                     Spacing="5"
+                                     VerticalOptions="CenterAndExpand">
+                        <Label x:Name="itemName"
+                               Text="{Binding Name}"
+                               FontAttributes="Bold"
+                               TextColor="Black"
+                               FontSize="24"/>
+                        <Label x:Name="name"
+                               Text="{Binding Price}"
+                               FontAttributes="Bold"
+                               TextColor="Black"
+                               FontSize="18"/>
+
+                    </VerticalStackLayout>
+                    <Image Source="{Binding Image}"
+                       HorizontalOptions="Start"
+                       Aspect="AspectFill"
+                       Grid.Column="1"
+                       Grid.Row="0"
+                       HeightRequest="100"/>
+
+                </Grid>
+            </Border>
+        </DataTemplate>
+        <template:VegNonVegFoodSelector x:Key="vegNonVegFoodSelector"
+                                        NonVegDataTemplate="{StaticResource nonVegFoodItems}"
+                                        VegDataTemplate="{StaticResource vegFoodItems}"/>
+    </ContentPage.Resources>
+    <CollectionView ItemsSource="{Binding Foods}"
+                    ItemTemplate="{StaticResource vegNonVegFoodSelector}">
+        
+        
+    </CollectionView>
+</ContentPage>
